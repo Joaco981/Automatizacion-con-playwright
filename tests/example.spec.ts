@@ -33,4 +33,17 @@ test.describe('Sistema alumnos, DNI: 666 Pass: demo', () => {
   });
 
 //TEST VALIDOS
+test.describe('Sistema alumnos, DNI:  Pass: ', () => { 
+  test('Test válido', async ({ page }) => {
+    await page.goto(`${process.env.BASE_URL}/alumnosnotas/`);
 
+    await expect(page).toHaveTitle(/Login Alumnos/);
+
+    await page.waitForSelector('[name="ctl00$ContentPlaceHolder1$TextBox1"]');    
+    await page.locator('[name="ctl00$ContentPlaceHolder1$TextBox1"]').fill(process.env.USUARIO ?? '');
+    await page.locator('[name="ctl00$ContentPlaceHolder1$Clave"]').fill(process.env.PASSWORD ?? '');
+    await page.locator('[name="ctl00$ContentPlaceHolder1$ImageButton1"]').click();
+    await expect(page).toHaveURL(`${process.env.BASE_URL}/alumnosnotas/Proteccion/Inicio.aspx`);
+    await expect(page.locator('[id=ctl00_Label1]')).toHaveText('Flores, Joaquin Augusto - Ingeniería en Sistemas de Información(R. M. Nº 556/17) - Central');
+  });
+});
